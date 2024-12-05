@@ -47,7 +47,7 @@ export default function EventList() {
 
       {/* Upcoming Events Grid */}
       {upcomingEvents.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div style={{ gridAutoRows: "auto !important"}} className="grid grid-cols-1 grid-rows-auto md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {upcomingEvents.map((event) => (
             <EventCard key={event._id} eventId={event._id} />
           ))}
@@ -66,7 +66,7 @@ export default function EventList() {
       {pastEvents.length > 0 && (
         <>
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Past Events</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 h-auto md:grid-cols-2 lg:grid-cols-3 gap-6">
             {pastEvents.map((event) => (
               <EventCard key={event._id} eventId={event._id} />
             ))}
