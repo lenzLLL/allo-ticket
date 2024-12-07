@@ -14,7 +14,6 @@ import {
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useUser } from "@clerk/nextjs";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from "next/navigation";
@@ -58,7 +57,7 @@ interface EventFormProps {
 }
 
 export default function EventForm({ mode, initialData }: EventFormProps) {
-  const { user } = useUser();
+  const user = {id:"user_2iRXPsQAaVYYfAQ2XLQXemvJrzI"}
   const createEvent = useMutation(api.events.create);
   const updateEvent = useMutation(api.events.updateEvent);
   const router = useRouter();
