@@ -67,7 +67,7 @@ export default function SellerDashboard() {
     <div className="max-w-3xl mx-auto p-6">
     <div className="bg-white rounded-lg shadow-lg overflow-hidden">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-8 text-white">
+      <div className="bg-gradient-to-r from-purple-600 to-blue-800 px-6 py-8 text-white">
         <h2 className="text-2xl font-bold">Seller Dashboard</h2>
         <p className="text-blue-100 mt-2">
           Manage your seller profile and payment settings

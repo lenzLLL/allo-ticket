@@ -34,15 +34,15 @@ function Header() {
         </div>
 
         {/* Search Bar - Full width on mobile */}
+      
         <div className="w-full lg:max-w-2xl">
           <SearchBar />
         </div>
-
         <div className="hidden lg:block ml-auto">
           
             <div className="flex items-center gap-3">
               <Link href="/seller">
-                <button className="bg-blue-600 text-white px-3 py-1.5 text-sm rounded-lg hover:bg-blue-700 transition">
+                <button className="bg-gradient-to-r from-blue-500 hover:from-blue-600  to-purple-600 hover:to-purple-700 text-white px-3 py-1.5 text-sm rounded-lg  transition">
                   Sell Tickets
                 </button>
               </Link>
@@ -60,12 +60,12 @@ function Header() {
               
         
         </div>
-
+       
         {/* Mobile Action Buttons */}
         <div className="lg:hidden w-full flex justify-center gap-3">
           
             <Link href="/seller" className="flex-1">
-              <button className="w-full bg-blue-600 text-white px-3 py-1.5 text-sm rounded-lg hover:bg-blue-700 transition">
+              <button className="w-full bg-gradient-to-r from-blue-500 hover:from-blue-600  to-purple-600 hover:to-purple-700 text-white px-3 py-1.5 text-sm rounded-lg  transition">
                 Sell Tickets
               </button>
             </Link>

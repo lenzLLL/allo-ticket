@@ -1,13 +1,12 @@
 "use client";
 
+import TicketCard from "@/components/TicketCard";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
-import { useUser } from "@clerk/nextjs";
-import TicketCard from "@/components/TicketCard";
 import { Ticket } from "lucide-react";
 
 export default function MyTicketsPage() {
-  const { user } = useUser();
+  const user = {id:"user_2iRXPsQAaVYYfAQ2XLQXemvJrzI"}
   const tickets = useQuery(api.events.getUserTickets, {
     userId: user?.id ?? "",
   });

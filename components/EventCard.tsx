@@ -158,7 +158,7 @@ function EventCard({ eventId }: { eventId: Id<"events"> }){
           <div>
             <div className="flex flex-col items-start gap-2">
               {isEventOwner && (
-                <span className="inline-flex items-center gap-1 bg-blue-600/90 text-white px-2 py-1 rounded-full text-xs font-medium">
+                <span className="inline-flex items-center gap-1 bg-gradient-to-r from-blue-500 hover:from-blue-600  to-purple-600 hover:to-purple-700 text-white px-2 py-1 rounded-full text-xs font-medium">
                   <StarIcon className="w-3 h-3" />
                   Your Event
                 </span>

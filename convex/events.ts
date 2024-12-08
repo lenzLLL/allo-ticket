@@ -506,6 +506,7 @@ export const cancelEvent = mutation({
 
 
 
+
 // 1. soldTickets (billets vendus)
 // Cela fait référence au nombre total de billets qui ont été vendus pour un événement. Cela inclut tous les billets achetés par les utilisateurs, qu'ils soient utilisés ou non.
 
