@@ -50,7 +50,6 @@ export async function createStripeCheckoutSession({
   }
 
   if (!queuePosition.offerExpiresAt) {
-    throw new Error("Ticket offer has no expiration date");
   }
 
   const metadata: StripeCheckoutMetaData = {
@@ -81,7 +80,7 @@ export async function createStripeCheckoutSession({
       },
       expires_at: Math.floor(Date.now() / 1000) + DURATIONS.TICKET_OFFER / 1000, // 30 minutes (stripe checkout minimum expiration time)
       mode: "payment",
-      success_url: `${baseUrl}/tickets/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/event/${eventId}`,
       metadata,
     },
