@@ -1,7 +1,7 @@
 import { getConvexClient } from "@/lib/convex";
 import { api } from "@/convex/_generated/api";
 import { redirect } from "next/navigation";
-import Ticket from "@/components/Ticket";
+// import Ticket from "@/components/Ticket";
 
 async function TicketSuccess() {
   const user = {id:"user_2iRXPsQAaVYYfAQ2XLQXemvJrzI"}
