@@ -29,7 +29,23 @@ export const updateOrCreateUserStripeConnectId = mutation({
     await ctx.db.patch(user._id, { stripeConnectId: args.stripeConnectId });
   },
 });
-
+export const create = mutation({
+  args: {
+    name: v.string(),
+    email: v.string(),
+    location: v.string(),
+    userId:v.string()
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db.insert("users", {
+      name: args.name,
+      location: args.location,
+      email:args.email,
+      userId:args.userId
+    });
+    return user;
+  },
+});
 export const updateUser = mutation({
   args: {
     userId: v.string(),

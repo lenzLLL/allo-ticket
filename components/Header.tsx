@@ -5,6 +5,7 @@ import logo from "@/images/logo.png";
 import SearchBar from "./SearchBar";
 
 function Header() {
+  const user = {}
   return (
     <div className="border-b">
       <div className="flex flex-col lg:flex-row items-center gap-4 p-4">
@@ -40,7 +41,7 @@ function Header() {
         </div>
         <div className="hidden lg:block ml-auto">
           
-            <div className="flex items-center gap-3">
+           {!user? <div className="flex items-center gap-3">
               <Link href="/seller">
                 <button className="bg-gradient-to-r from-blue-500 hover:from-blue-600  to-purple-600 hover:to-purple-700 text-white px-3 py-1.5 text-sm rounded-lg  transition">
                   Sell Tickets
@@ -53,7 +54,22 @@ function Header() {
                 </button>
               </Link>
               
-            </div>
+            </div>:
+            <div className="flex items-center gap-3">
+            <Link href="/sign-up">
+              <button className="bg-gradient-to-r from-blue-500 hover:from-blue-600  to-purple-600 hover:to-purple-700 text-white px-3 py-1.5 text-sm rounded-lg  transition">
+                S'enregsitrer
+              </button>
+            </Link>
+
+            <Link href="/tickets">
+              <button className="bg-gray-100 text-gray-800 px-3 py-1.5 text-sm rounded-lg hover:bg-gray-200 transition border border-gray-300">
+                Se Connecter
+              </button>
+            </Link>
+            
+          </div>
+            }
           
 
           

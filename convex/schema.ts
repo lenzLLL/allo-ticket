@@ -48,6 +48,7 @@ export default defineSchema({
 
   users: defineTable({
     name: v.string(),
+    location:v.optional(v.string()),
     email: v.string(),
     userId: v.string(),
     stripeConnectId: v.optional(v.string()),
