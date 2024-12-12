@@ -150,8 +150,8 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
           }
 
           toast({
-            title: "Event updated",
-            description: "Your event has been successfully updated.",
+            title: "Événement mis à jour.",
+            description: "Votre événement a été mis à jour avec succès.",
           });
 
           router.push(`/event/${initialData._id}`);
@@ -205,7 +205,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Event Name</FormLabel>
+                <FormLabel>Nom</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -233,7 +233,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
             name="location"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Location</FormLabel>
+                <FormLabel>Localisation</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -247,7 +247,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
             name="eventDate"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Event Date</FormLabel>
+                <FormLabel>Date</FormLabel>
                 <FormControl>
                   <Input
                     type="date"
@@ -274,7 +274,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
             name="price"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Price per Ticket</FormLabel>
+                <FormLabel>Prix par ticket</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <span className="absolute left-2 top-1/2 -translate-y-1/2">
@@ -298,7 +298,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
             name="totalTickets"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Total Tickets Available</FormLabel>
+                <FormLabel>Total Tickets Disponible</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -314,7 +314,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
           {/* Image Upload */}
           <div className="space-y-4">
             <label className="block text-sm font-medium text-gray-700">
-              Event Image
+              Image
             </label>
             <div className="mt-1 flex items-center gap-4">
               {imagePreview || (!removedCurrentImage && currentImageUrl) ? (
@@ -366,12 +366,12 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
           {isPending ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />
-              {mode === "create" ? "Creating Event..." : "Updating Event..."}
+              {mode === "create" ? "Création en cours..." : "Modification en cours..."}
             </>
           ) : mode === "create" ? (
-            "Create Event"
+            "Créer"
           ) : (
-            "Update Event"
+            "Modifier"
           )}
         </Button>
       </form>

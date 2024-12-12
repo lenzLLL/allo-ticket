@@ -1,5 +1,14 @@
 "use client";
 import React,{useEffect,FormEvent} from 'react'
+import { Country, State, City }  from 'country-state-city';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 import {ConfirmationResult,RecaptchaVerifier,signInWithPhoneNumber} from "firebase/auth"
 import {auth} from "@/firebase"
 import {InputOTP,InputOTPGroup,InputOTPSeparator,InputOTPSlot} from "@/components/ui/input-otp"
@@ -23,7 +32,7 @@ import { useRef, useState, useTransition } from "react";
 import { Id } from "@/convex/_generated/dataModel";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
+import {useCookies} from "next-client-cookies"
 const formSchema = z.object({
   name: z.string().min(1, "Nom obligatoire"),
   email: z.string().min(1, "Contact obligatoire"),
@@ -48,6 +57,7 @@ export default function SignupForm({ mode, initialData }: EventFormProps) {
   const createUser = useMutation(api.users.create);
   const updateUser = useMutation(api.users.updateUser);
   const router = useRouter();
+  const cookies = useCookies()
   const { toast } = useToast();
   // const [phoneNumber,setPhoneNumber] = useState("")
   const [error,setError] = useState<String|null>(null)
@@ -67,38 +77,39 @@ export default function SignupForm({ mode, initialData }: EventFormProps) {
         return ()=>clearTimeout(timer)
     },[resendCountdown]
   )
-  const verifyOtp = async () =>{
-    startTransition(
-      async ()=>{
-          setError("")
-          if(!confirmationResult){
-              return
-          }
-          try{
-              const r = await confirmationResult.confirm(otp)
-              if(r.user.uid){
-              const eventId = await createUser({
-                name:form.getValues("name"),
-                location:form.getValues("location"),
-                email:form.getValues("email"),
-                userId:r.user.uid
-              });
-              router.push(`/`);
-              }
-          }
-          catch(error:any){
-              setError("La vérification de l'OTP a échoué")
-          }
-      }
-    )
-  }
+  // const verifyOtp = async () =>{
+  //   startTransition(
+  //     async ()=>{
+  //         setError("")
+  //         if(!confirmationResult){
+  //             return
+  //         }
+  //         try{
+  //             const r = await confirmationResult.confirm(otp)
+  //             if(r.user.uid){
+  //             const eventId = await createUser({
+  //               name:form.getValues("name"),
+  //               location:form.getValues("location"),
+  //               email:form.getValues("email"),
+  //               userId:r.user.uid
+  //             });
+  //             await setCookies(eventId)
+  //             router.push(`/`);
+  //             }
+  //         }
+  //         catch(error:any){
+  //             setError("La vérification de l'OTP a échoué")
+  //         }
+  //     }
+  //   )
+  // }
   useEffect(
     ()=>{
         const recaptchapVerifier = new RecaptchaVerifier(
           auth,
           "recaptcha-container",
           {
-              size:"invisible"
+              size:"normal"
           }
       )
       setRecaptchapVerifier(recaptchapVerifier)
@@ -108,45 +119,45 @@ export default function SignupForm({ mode, initialData }: EventFormProps) {
         
     },[auth]
   )
-  useEffect(
-  ()=>{
-      if(otp.length === 6){
-          verifyOtp()
-      } 
-  },[otp]
-  )
-const requestOtp = async (e?: FormEvent<HTMLFormElement>) =>{
-    e?.preventDefault()
+  // useEffect(
+  // ()=>{
+  //     if(otp.length === 6){
+  //         verifyOtp()
+  //     } 
+  // },[otp]
+  // )
+// const requestOtp = async (e?: FormEvent<HTMLFormElement>) =>{
+//     e?.preventDefault()
     
-    startTransition(
-      async () => {
-         setError("")
-         if(!recaptchapVerifier){
-             return setError("Le Recapchat n'est pas initialisé") 
-         }
-         try{
-             const confirmationResult = await signInWithPhoneNumber(auth,form.getValues("email").toString())
-             setConfirmationResult(confirmationResult)
-             setSuccess("L'OTP a été renouvelé avec success")
-         }
-         catch(error:any){
-             console.log(error)
-             if(error.code === "auth/invalid-phone-number"){
-                 setError("Numéro de téléphone invalide!")
-             }
-             else if(error.code === "auth/too-many-requests")
-             {
-                 setError("Plusieurs requêtes ont été lancées, Veillez ressayer plus tard")
-             }
-             else{
-              setError("Une erreur s'est produite, veillez recommencer!")
-             }
+//     startTransition(
+//       async () => {
+//          setError("")
+//          if(!recaptchapVerifier){
+//              return setError("Le Recapchat n'est pas initialisé") 
+//          }
+//          try{
+//              const confirmationResult = await signInWithPhoneNumber(auth,form.getValues("email").toString())
+//              setConfirmationResult(confirmationResult)
+//              setSuccess("L'OTP a été renouvelé avec success")
+//          }
+//          catch(error:any){
+//              console.log(error)
+//              if(error.code === "auth/invalid-phone-number"){
+//                  setError("Numéro de téléphone invalide!")
+//              }
+//              else if(error.code === "auth/too-many-requests")
+//              {
+//                  setError("Plusieurs requêtes ont été lancées, Veillez ressayer plus tard")
+//              }
+//              else{
+//               setError("Une erreur s'est produite, veillez recommencer!")
+//              }
 
-             setResendCountdown(0) 
-         }        
-      }
-    )
-}
+//              setResendCountdown(0) 
+//          }        
+//       }
+//     )
+// }
 const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -156,77 +167,99 @@ const form = useForm<FormData>({
     },
 });
 
-  async function onSubmit(values: FormData) {
-    setResendCountdown(60)
-    startTransition(async () => {
-      try {
+  // async function onSubmit(values: FormData) {
+  //   setResendCountdown(60)
+  //   startTransition(async () => {
+  //     try {
       
-        // Handle image deletion/update in edit mode
-        if(!success && mode === "create"){
-          if(!recaptchapVerifier){
-            toast({
-              variant: "destructive",
-              title: "Recaptchap n'est pas initialisé",
-              description: "There was a problem with your request.",
-            });
-            return 
-          }
+  //       // Handle image deletion/update in edit mode
+  //       if(!success && mode === "create"){
+  //         if(!recaptchapVerifier){
+  //           toast({
+  //             variant: "destructive",
+  //             title: "Recaptchap n'est pas initialisé",
+  //             description: "There was a problem with your request.",
+  //           });
+  //           return 
+  //         }
    
-          setError("")
-          const confirmationResult = await signInWithPhoneNumber(auth,"+237671434007",recaptchapVerifier)
-          setConfirmationResult(confirmationResult)
-          setSuccess("L'OTP a été renouvelé avec success")
-          return
-        }
-        else{
-          if (!initialData) {
-            throw new Error("Initial user data is required for updates");
-          }
+  //         setError("")
+  //         const confirmationResult = await signInWithPhoneNumber(auth,"+237671434007",recaptchapVerifier)
+  //         setConfirmationResult(confirmationResult)
+  //         setSuccess("L'OTP a été renouvelé avec success")
+  //         return
+  //       }
+  //       else{
+  //         if (!initialData) {
+  //           throw new Error("Initial user data is required for updates");
+  //         }
 
-          // Update event details
-          await updateUser({
-            ...values,
-            userId:"df"
-          });
+  //         // Update event details
+  //         await updateUser({
+  //           ...values,
+  //           userId:"df"
+  //         });
 
-          // Update image - this will now handle both adding new image and removing existing image
+  //         // Update image - this will now handle both adding new image and removing existing image
         
 
-          toast({
-            title: "Données modifiées",
-            description: "Les données de votre compte ont été modifiées avec succès.",
-          });
+  //         toast({
+  //           title: "Données modifiées",
+  //           description: "Les données de votre compte ont été modifiées avec succès.",
+  //         });
 
-          router.push(`/`);
+  //         router.push(`/`);
   
-        }
-      } catch (error:any) {
-        let msg =""
-        console.error("Failed to handle event:", error);
-        console.log(error)
-        if(error.code === "auth/invalid-phone-number" || error.code === "auth/argument-error"){
-            msg ="Numéro de téléphone invalide!"
-        }
-        else if(error.code === "auth/too-many-requests")
-        {
-            setError("Plusieurs requêtes ont été lancées, Veillez ressayer plus tard")
-        }
-        else{
-         setError("Une erreur s'est produite, veillez recommencer!")
-        }
+  //       }
+  //     } catch (error:any) {
+  //       let msg =""
+  //       console.error("Failed to handle event:", error);
+  //       console.log(error)
+  //       if(error.code === "auth/invalid-phone-number" || error.code === "auth/argument-error"){
+  //           msg ="Numéro de téléphone invalide!"
+  //       }
+  //       else if(error.code === "auth/too-many-requests")
+  //       {
+  //           setError("Plusieurs requêtes ont été lancées, Veillez ressayer plus tard")
+  //       }
+  //       else{
+  //        setError("Une erreur s'est produite, veillez recommencer!")
+  //       }
 
-        setResendCountdown(0) 
-        toast({
-          variant: "destructive",
-          title: msg,
-          description: "There was a problem with your request.",
-        });
+  //       setResendCountdown(0) 
+  //       toast({
+  //         variant: "destructive",
+  //         title: msg,
+  //         description: "There was a problem with your request.",
+  //       });
+  //     }
+  //   });
+  // }
+  async function onSubmit(values:FormData){
+    startTransition(
+      async () => {
+        try{
+            if(mode==="create"){
+              const eventId = await createUser({
+                name:form.getValues("name"),
+                location:form.getValues("location"),
+                email:form.getValues("email"),
+                userId:"2"
+              });
+              cookies.set("auth",eventId)
+              router.push(`/`);             
+            }
+            else{
+               
+            }
+        }
+        catch(error:any){
+
+        }
       }
-    });
+    )
   }
-  async function submit(){
-    await form.handleSubmit(onSubmit)
-  }
+
 
 
 
@@ -255,30 +288,43 @@ const form = useForm<FormData>({
           <FormField
             control={form.control}
             name="email"
+            
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Numéro de téléphone*</FormLabel>
                 <FormControl>
-                  <Input  {...field} />
+                  <Input  {...field} placeholder='Exemple (+237671434007) veillez respectez le format!' />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="location"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Pays*</FormLabel>
-                <FormControl>
-                  <Input  {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+       <FormField
+    control={form.control}
+    name="location"
+    render={({ field }) => (
+        <FormItem>
+            <FormLabel>Pays*</FormLabel>
+            <FormControl>
+                <Select {...field}  onValueChange={field.onChange}>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Sélectionnez votre pays de résidence" />
+                    </SelectTrigger>
+                    <SelectContent>
+                    {
+                        Country.getAllCountries().map(
+                        (item)=>(<SelectItem key = {item.name} value={item.name}>{`(${item.phonecode.includes("+")?item.phonecode:"+"+item.phonecode}) `}{item.name}</SelectItem>)
+                  ) 
+                    }
+                    </SelectContent>
+                </Select>
+            </FormControl>
+            <FormMessage />
+        </FormItem>
+        )}
+      />
+         
         </div>}
         {
             confirmationResult && (

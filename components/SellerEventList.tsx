@@ -33,14 +33,14 @@ export default function SellerEventList() {
       {/* Upcoming Events */}
       <div>
         <h2 className="text-2xl font-bold text-gray-900 mb-4">
-          Upcoming Events
+        Événements {'à'.toUpperCase()} Venir
         </h2>
         <div className="grid grid-cols-1 gap-6">
           {upcomingEvents.map((event) => (
             <SellerEventCard key={event._id} event={event} />
           ))}
           {upcomingEvents.length === 0 && (
-            <p className="text-gray-500">No upcoming events</p>
+            <p className="text-gray-500">Aucun événement à venir.</p>
           )}
         </div>
       </div>
@@ -48,7 +48,7 @@ export default function SellerEventList() {
       {/* Past Events */}
       {pastEvents.length > 0 && (
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Past Events</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{'é'.toUpperCase()}vènement(s) passés</h2>
           <div className="grid grid-cols-1 gap-6">
             {pastEvents.map((event) => (
               <SellerEventCard key={event._id} event={event} />
@@ -100,7 +100,7 @@ function SellerEventCard({
                   <div className="mt-2 flex items-center gap-2 text-red-600">
                     <Ban className="w-4 h-4" />
                     <span className="text-sm font-medium">
-                      Event Cancelled & Refunded
+                    Événement annulé && remboursé.
                     </span>
                   </div>
                 )}
@@ -113,7 +113,7 @@ function SellerEventCard({
                       className="shrink-0 flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
                     >
                       <Edit className="w-4 h-4" />
-                      Edit
+                      Modifier
                     </Link>
                     <CancelEventButton eventId={event._id} />
                   </>
@@ -135,7 +135,7 @@ function SellerEventCard({
                       {event.metrics.refundedTickets}
                       <span className="text-sm text-gray-500 font-normal">
                         {" "}
-                        refunded
+                        Remboursé(s)
                       </span>
                     </>
                   ) : (
@@ -153,7 +153,7 @@ function SellerEventCard({
                 <div className="flex items-center gap-2 text-gray-600 mb-1">
                   <Banknote className="w-4 h-4" />
                   <span className="text-sm font-medium">
-                    {event.is_cancelled ? "Amount Refunded" : "Revenue"}
+                    {event.is_cancelled ? "Montant Remboursé" : "Revenu"}
                   </span>
                 </div>
                 <p className="text-2xl font-semibold text-gray-900">
@@ -177,14 +177,14 @@ function SellerEventCard({
               <div className="bg-gray-50 p-3 rounded-lg">
                 <div className="flex items-center gap-2 text-gray-600 mb-1">
                   <InfoIcon className="w-4 h-4" />
-                  <span className="text-sm font-medium">Status</span>
+                  <span className="text-sm font-medium">Statut</span>
                 </div>
                 <p className="text-sm font-medium text-gray-900">
                   {event.is_cancelled
-                    ? "Cancelled"
+                    ? "Annulé"
                     : isPastEvent
-                      ? "Ended"
-                      : "Active"}
+                      ? "Terminé"
+                      : "Actif"}
                 </p>
               </div>
             </div>

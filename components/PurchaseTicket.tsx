@@ -35,12 +35,12 @@ function PurchaseTicket({ eventId }: { eventId: Id<"events"> }){
 
       if (minutes > 0) {
         setTimeRemaining(
-          `${minutes} minute${minutes === 1 ? "" : "s"} ${seconds} second${
+          `${minutes} minute${minutes === 1 ? "" : "s"} ${seconds} seconde${
             seconds === 1 ? "" : "s"
           }`
         );
       } else {
-        setTimeRemaining(`${seconds} second${seconds === 1 ? "" : "s"}`);
+        setTimeRemaining(`${seconds} seconde${seconds === 1 ? "" : "s"}`);
       }
     };
 
@@ -81,17 +81,16 @@ function PurchaseTicket({ eventId }: { eventId: Id<"events"> }){
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900">
-                Ticket Reserved
+                Ticket Reservé
               </h3>
               <p className="text-sm text-gray-500">
-                Expires in {timeRemaining}
+                Expire dans {timeRemaining}
               </p>
             </div>
           </div>
 
           <div className="text-sm text-gray-600 leading-relaxed">
-            A ticket has been reserved for you. Complete your purchase before
-            the timer expires to secure your spot at this event.
+          Un billet a été réservé pour vous. Complétez votre achat avant l'expiration du minuteur pour garantir votre place à cet événement.
           </div>
         </div>
       </div>
@@ -103,7 +102,7 @@ function PurchaseTicket({ eventId }: { eventId: Id<"events"> }){
       >
         {isLoading
           ? "Redirecting to checkout..."
-          : "Purchase Your Ticket Now →"}
+          : "Achetez votre billet maintenant.→"}
       </button>
 
       <div className="mt-4">

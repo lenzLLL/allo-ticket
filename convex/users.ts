@@ -43,7 +43,7 @@ export const create = mutation({
       email:args.email,
       userId:args.userId
     });
-    return user;
+    return args.userId;
   },
 });
 export const updateUser = mutation({

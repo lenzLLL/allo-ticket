@@ -70,7 +70,7 @@ export default function SellerDashboard() {
       <div className="bg-gradient-to-r from-purple-600 to-blue-800 px-6 py-8 text-white">
         <h2 className="text-2xl font-bold">Seller Dashboard</h2>
         <p className="text-blue-100 mt-2">
-          Manage your seller profile and payment settings
+        Gérez votre profil de vendeur et vos paramètres de paiement.
         </p>
       </div>
 
@@ -79,10 +79,10 @@ export default function SellerDashboard() {
         <>
           <div className="bg-white p-8 rounded-lg">
             <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-              Sell tickets for your events
+            Vendez des billets pour vos événements.
             </h2>
             <p className="text-gray-600 mb-8">
-              List your tickets for sale and manage your listings
+            Listez vos billets à vendre et gérez vos annonces.
             </p>
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
               <div className="flex justify-center gap-4">
@@ -91,14 +91,14 @@ export default function SellerDashboard() {
                   className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   <Plus className="w-5 h-5" />
-                  Create Event
+                  Créer un évènement
                 </Link>
                 <Link
                   href="/seller/events"
                   className="flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
                 >
                   <CalendarDays className="w-5 h-5" />
-                  View My Events
+                  Voir mes évènements
                 </Link>
               </div>
             </div>
@@ -113,11 +113,10 @@ export default function SellerDashboard() {
         {!stripeConnectId && !accountCreatePending && (
           <div className="text-center py-8">
             <h3 className="text-xl font-semibold mb-4">
-              Start Accepting Payments
+            Commencez à accepter les paiements.
             </h3>
             <p className="text-gray-600 mb-6">
-              Create your seller account to start receiving payments securely
-              through Stripe
+            Créez votre compte vendeur pour commencer à recevoir des paiements en toute sécurité via Stripe.
             </p>
             <button
               onClick={async () => {
@@ -137,7 +136,7 @@ export default function SellerDashboard() {
               }}
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              Create Seller Account
+              Créer un compte vendeur.
             </button>
           </div>
         )}
@@ -150,7 +149,7 @@ export default function SellerDashboard() {
               {/* Account Status Card */}
               <div className="bg-gray-50 rounded-lg p-4">
                 <h3 className="text-sm font-medium text-gray-500">
-                  Account Status
+                  Account Statut du compte
                 </h3>
                 <div className="mt-2 flex items-center">
                   <div
@@ -275,7 +274,7 @@ export default function SellerDashboard() {
                     }}
                     className="mt-4 bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors"
                   >
-                    Complete Requirements
+                   Compléter les exigences.
                   </button>
                 )}
               </div>
@@ -289,21 +288,20 @@ export default function SellerDashboard() {
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center"
                 >
                   <Cog className="w-4 h-4 mr-2" />
-                  Seller Dashboard
+                  Tableau De Bord
                 </button>
               )}
               <button
                 onClick={fetchAccountStatus}
                 className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
               >
-                Refresh Status
+                Actualiser le statut.
               </button>
             </div>
 
             {error && (
               <div className="mt-4 bg-red-50 text-red-600 p-3 rounded-lg">
-                Unable to access Stripe dashboard. Please complete all
-                requirements first.
+                Impossible d'accéder au tableau de bord Stripe. Veuillez d'abord compléter toutes les exigences.
               </div>
             )}
           </div>
@@ -312,12 +310,12 @@ export default function SellerDashboard() {
         {/* Loading States */}
         {accountCreatePending && (
           <div className="text-center py-4 text-gray-600">
-            Creating your seller account...
+          Création de votre compte vendeur...
           </div>
         )}
         {accountLinkCreatePending && (
           <div className="text-center py-4 text-gray-600">
-            Preparing account setup...
+            Préparation de la configuration du compte...
           </div>
         )}
       </div>

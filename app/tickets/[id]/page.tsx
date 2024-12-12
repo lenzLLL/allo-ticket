@@ -46,16 +46,16 @@ export default function TicketPage() {
               className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to My Tickets
+              Retour à mes billets
             </Link>
             <div className="flex items-center gap-4">
               <button className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors rounded-lg hover:bg-gray-100">
                 <Download className="w-4 h-4" />
-                <span className="text-sm">Save</span>
+                <span className="text-sm">Enregistrer</span>
               </button>
               <button className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors rounded-lg hover:bg-gray-100">
                 <Share2 className="w-4 h-4" />
-                <span className="text-sm">Share</span>
+                <span className="text-sm">Partager</span>
               </button>
             </div>
           </div>
@@ -82,13 +82,12 @@ export default function TicketPage() {
                 {ticket.event.is_cancelled ? "Cancelled" : "Valid Ticket"}
               </span>
               <span className="text-sm text-gray-500">
-                Purchased on {new Date(ticket.purchasedAt).toLocaleDateString()}
+              Acheté le {new Date(ticket.purchasedAt).toLocaleDateString()}
               </span>
             </div>
             {ticket.event.is_cancelled && (
               <p className="mt-4 text-sm text-red-600">
-                This event has been cancelled. A refund will be processed if it
-                hasn&apos;t been already.
+              Cet événement a été annulé. Un remboursement sera traité s'il n'a pas déjà été effectué.
               </p>
             )}
           </div>
@@ -110,7 +109,7 @@ export default function TicketPage() {
               ticket.event.is_cancelled ? "text-red-900" : "text-blue-900"
             }`}
           >
-            Need Help?
+            Besoin d'aide?
           </h3>
           <p
             className={`mt-1 text-sm ${
@@ -118,8 +117,8 @@ export default function TicketPage() {
             }`}
           >
             {ticket.event.is_cancelled
-              ? "For questions about refunds or cancellations, please contact our support team at team@papareact-tickr.com"
-              : "If you have any issues with your ticket, please contact our support team at team@papareact-tickr.com"}
+              ? "Pour toute question concernant les remboursements ou les annulations, veuillez contacter notre équipe de support à l'adresse lenzyounda@gmail.com."
+              : "Si vous rencontrez des problèmes avec votre billet, veuillez contacter notre équipe de support à l'adresse team@papareact-tickr.com."}
           </p>
         </div>
       </div>

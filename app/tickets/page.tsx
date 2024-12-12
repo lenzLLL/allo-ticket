@@ -28,16 +28,16 @@ export default function MyTicketsPage() {
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">My Tickets</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Mes Tickets</h1>
             <p className="mt-2 text-gray-600">
-              Manage and view all your tickets in one place
+            Gérez et visualisez tous vos billets au même endroit.
             </p>
           </div>
           <div className="bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-100">
             <div className="flex items-center gap-2 text-gray-600">
               <Ticket className="w-5 h-5" />
               <span className="font-medium">
-                {tickets.length} Total Tickets
+                Tickets {tickets.length}
               </span>
             </div>
           </div>
@@ -46,7 +46,7 @@ export default function MyTicketsPage() {
         {upcomingTickets.length > 0 && (
           <div className="mb-12">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
-              Upcoming Events
+            Événements {'à'.toUpperCase()} Venir
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {upcomingTickets.map((ticket) => (
@@ -59,7 +59,7 @@ export default function MyTicketsPage() {
         {pastTickets.length > 0 && (
           <div className="mb-12">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
-              Past Events
+            Événements passés
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {pastTickets.map((ticket) => (
@@ -72,7 +72,7 @@ export default function MyTicketsPage() {
         {otherTickets.length > 0 && (
           <div>
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
-              Other Tickets
+              Autres tickets
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {otherTickets.map((ticket) => (
@@ -86,10 +86,10 @@ export default function MyTicketsPage() {
           <div className="text-center py-12">
             <Ticket className="w-12 h-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900">
-              No tickets yet
+              Pas encore de tickets
             </h3>
             <p className="text-gray-600 mt-1">
-              When you purchase tickets, they&apos;ll appear here
+              Lorsque vous achetez des billets, ils&apos; apparaîtront ici.
             </p>
           </div>
         )}

@@ -53,7 +53,7 @@ export default function Ticket({ ticketId }: { ticketId: Id<"tickets"> }) {
             {ticket.event.name}
           </h2>
           {ticket.event.is_cancelled && (
-            <p className="text-red-300 mt-1">This event has been cancelled</p>
+            <p className="text-red-300 mt-1">Cet èvènement a été annulé</p>
           )}
         </div>
       </div>
@@ -80,7 +80,7 @@ export default function Ticket({ ticketId }: { ticketId: Id<"tickets"> }) {
                 className={`w-5 h-5 mr-3 ${ticket.event.is_cancelled ? "text-red-600" : "text-blue-600"}`}
               />
               <div>
-                <p className="text-sm text-gray-500">Location</p>
+                <p className="text-sm text-gray-500">Localisation</p>
                 <p className="font-medium">{ticket.event.location}</p>
               </div>
             </div>
@@ -90,7 +90,7 @@ export default function Ticket({ ticketId }: { ticketId: Id<"tickets"> }) {
                 className={`w-5 h-5 mr-3 ${ticket.event.is_cancelled ? "text-red-600" : "text-blue-600"}`}
               />
               <div>
-                <p className="text-sm text-gray-500">Ticket Holder</p>
+                <p className="text-sm text-gray-500">Titulaire du billet</p>
                 <p className="font-medium">{user.name}</p>
                 <p className="text-sm text-gray-500">{user.email}</p>
               </div>
@@ -101,7 +101,7 @@ export default function Ticket({ ticketId }: { ticketId: Id<"tickets"> }) {
                 className={`w-5 h-5 mr-3 ${ticket.event.is_cancelled ? "text-red-600" : "text-blue-600"}`}
               />
               <div>
-                <p className="text-sm text-gray-500">Ticket Holder ID</p>
+                <p className="text-sm text-gray-500">Identifiant du propriétaire</p>
                 <p className="font-medium">{user.userId}</p>
               </div>
             </div>
@@ -111,7 +111,7 @@ export default function Ticket({ ticketId }: { ticketId: Id<"tickets"> }) {
                 className={`w-5 h-5 mr-3 ${ticket.event.is_cancelled ? "text-red-600" : "text-blue-600"}`}
               />
               <div>
-                <p className="text-sm text-gray-500">Ticket Price</p>
+                <p className="text-sm text-gray-500">Prix du ticket</p>
                 <p className="font-medium">£{ticket.event.price.toFixed(2)}</p>
               </div>
             </div>
@@ -133,18 +133,17 @@ export default function Ticket({ ticketId }: { ticketId: Id<"tickets"> }) {
         {/* Additional Information */}
         <div className="mt-6 pt-6 border-t border-gray-200">
           <h3 className="text-sm font-medium text-gray-900 mb-2">
-            Important Information
+             Informations Importantes
           </h3>
           {ticket.event.is_cancelled ? (
             <p className="text-sm text-red-600">
-              This event has been cancelled. A refund will be processed if it
-              hasn&apos;t been already.
+              Cet événement a été annulé. Un remboursement sera traité s'il n'a pas déjà été effectué.
             </p>
           ) : (
             <ul className="text-sm text-gray-600 space-y-1">
-              <li>• Please arrive at least 30 minutes before the event</li>
-              <li>• Have your ticket QR code ready for scanning</li>
-              <li>• This ticket is non-transferable</li>
+              <li>• Veuillez arriver au moins 30 minutes avant l'événement.</li>
+              <li>• Ayez votre code QR de billet prêt pour le scan.              </li>
+              <li>• Ce billet est non transférable.</li>
             </ul>
           )}
         </div>
@@ -155,12 +154,12 @@ export default function Ticket({ ticketId }: { ticketId: Id<"tickets"> }) {
         className={`${ticket.event.is_cancelled ? "bg-red-50" : "bg-gray-50"} px-6 py-4 flex justify-between items-center`}
       >
         <span className="text-sm text-gray-500">
-          Purchase Date: {new Date(ticket.purchasedAt).toLocaleString()}
+        Date d'achat: {new Date(ticket.purchasedAt).toLocaleString()}
         </span>
         <span
           className={`text-sm font-medium ${ticket.event.is_cancelled ? "text-red-600" : "text-blue-600"}`}
         >
-          {ticket.event.is_cancelled ? "Cancelled" : "Valid Ticket"}
+          {ticket.event.is_cancelled ? "Annulé" : "Billet Valide"}
         </span>
       </div>
     </div>

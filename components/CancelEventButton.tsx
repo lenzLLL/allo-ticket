@@ -22,7 +22,7 @@ export default function CancelEventButton({
   const handleCancel = async () => {
     if (
       !confirm(
-        "Are you sure you want to cancel this event? All tickets will be refunded and the event will be cancelled permanently."
+        "Êtes-vous sûr de vouloir annuler cet événement ? Tous les billets seront remboursés et l'événement sera annulé définitivement."
       )
     ) {
       return;
@@ -33,8 +33,8 @@ export default function CancelEventButton({
       await refundEventTickets(eventId);
       await cancelEvent({ eventId });
       toast({
-        title: "Event cancelled",
-        description: "All tickets have been refunded successfully.",
+        title: "Evènement annulé",
+        description: "Tous les billets ont été remboursés avec succès."
       });
       router.push("/seller/events");
     } catch (error) {
@@ -42,7 +42,7 @@ export default function CancelEventButton({
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to cancel event. Please try again.",
+        description: "Échec de l'annulation de l'événement. Veuillez réessayer.",
       });
     } finally {
       setIsCancelling(false);
@@ -56,7 +56,7 @@ export default function CancelEventButton({
       className="flex items-center gap-2 px-4 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
     >
       <Ban className="w-4 h-4" />
-      <span>{isCancelling ? "Processing..." : "Cancel Event"}</span>
+      <span>{isCancelling ? "En cours..." : "Annuler l'évènement"}</span>
     </button>
   );
 }
