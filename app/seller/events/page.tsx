@@ -1,12 +1,15 @@
 import { redirect } from "next/navigation";
 import SellerEventList from "@/components/SellerEventList";
 import Link from "next/link";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import { ArrowLeft, Plus } from "lucide-react";
-
+import { useCookies } from "next-client-cookies";
 export default async function SellerEventsPage() {
-  const user = {id:"user_2iRXPsQAaVYYfAQ2XLQXemvJrzI"}
-  
-  if (!user.id) redirect("/");
+  const cookies = useCookies()
+  const id = cookies.get("auth")
+  const user = useQuery(api.users.getUserById, { userId:id? id:'' });
+  if (!user?.userId) redirect("/");
 
   return (
     <div className="min-h-screen bg-gray-50">

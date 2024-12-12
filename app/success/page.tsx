@@ -2,13 +2,18 @@ import { getConvexClient } from "@/lib/convex";
 import { api } from "@/convex/_generated/api";
 import { redirect } from "next/navigation";
 import Ticket from "@/components/Ticket";
-
-async function TicketSuccess() {
-  const user = {id:"user_2iRXPsQAaVYYfAQ2XLQXemvJrzI"}
-  if (!user.id) redirect("/");
+import { useQuery } from "convex/react";
+import { useCookies } from "next-client-cookies";
+export default async function TicketSuccess() {
+  
+  
+  const cookies = useCookies()
+  const id = cookies.get("auth")
+  const user = useQuery(api.users.getUserById, { userId:id? id:'' });
+  if (!user?.userId) redirect("/");
 
   const convex = getConvexClient();
-  const tickets = await convex.query(api.events.getUserTickets, { userId:user.id });
+  const tickets = await convex.query(api.events.getUserTickets, { userId:user.userId });
   const latestTicket = tickets[tickets.length - 1];
 
   if (!latestTicket) {
@@ -33,4 +38,3 @@ async function TicketSuccess() {
   );
 }
 
-export default TicketSuccess;

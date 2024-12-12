@@ -7,13 +7,17 @@ import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import { Ticket } from "lucide-react";
 import ReleaseTicket from "./ReleaseTicket";
+import { useCookies } from "next-client-cookies";
 import { createStripeCheckoutSession } from "@/actions/createStripeCheckoutSession";
 function PurchaseTicket({ eventId }: { eventId: Id<"events"> }){
     const router = useRouter();
-    const user = {id:"user_2iRXPsQAaVYYfAQ2XLQXemvJrzI"}
+    
+  const cookies = useCookies()
+  const id = cookies.get("auth")
+  const user = useQuery(api.users.getUserById, { userId:id? id:'' });
     const queuePosition = useQuery(api.WaitingList.getQueuePosition, {
       eventId,
-      userId: user?.id ?? "",
+      userId: user?.userId ?? "",
     });
 
     const [timeRemaining, setTimeRemaining] = useState("");

@@ -23,7 +23,8 @@ import { Id } from "@/convex/_generated/dataModel";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useStorageUrl } from "@/lib/utils";
-
+import { useQuery } from "convex/react";
+import { useCookies } from "next-client-cookies";
 const formSchema = z.object({
   name: z.string().min(1, "Event name is required"),
   description: z.string().min(1, "Description is required"),
@@ -57,7 +58,10 @@ interface EventFormProps {
 }
 
 export default function EventForm({ mode, initialData }: EventFormProps) {
-  const user = {id:"user_2iRXPsQAaVYYfAQ2XLQXemvJrzI"}
+  
+  const cookies = useCookies()
+  const id = cookies.get("auth")
+  const user = useQuery(api.users.getUserById, { userId:id? id:'' });
   const createEvent = useMutation(api.events.create);
   const updateEvent = useMutation(api.events.updateEvent);
   const router = useRouter();
@@ -88,7 +92,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
   });
 
   async function onSubmit(values: FormData) {
-    if (!user?.id) return;
+    if (!user?.userId) return;
 
     startTransition(async () => {
       try {
@@ -113,7 +117,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
         if (mode === "create") {
           const eventId = await createEvent({
             ...values,
-            userId: user.id,
+            userId: user.userId,
             eventDate: values.eventDate.getTime(),
           });
 

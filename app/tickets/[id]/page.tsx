@@ -8,11 +8,12 @@ import Ticket from "@/components/Ticket";
 import Link from "next/link";
 import { ArrowLeft, Download, Share2 } from "lucide-react";
 import { useEffect } from "react";
-
+import { useCookies } from "next-client-cookies";
 export default function TicketPage() {
   const params = useParams();
-  const user = {id:"user_2iRXPsQAaVYYfAQ2XLQXemvJrzI"}
-  
+  const cookies = useCookies()
+  const id = cookies.get("auth")
+  const user = useQuery(api.users.getUserById, { userId:id? id:'' });
   const ticket = useQuery(api.tickets.getTicketWithDetails, {
     ticketId: params.id as Id<"tickets">,
   });
@@ -22,7 +23,7 @@ export default function TicketPage() {
       redirect("/");
     }
 
-    if (!ticket || ticket.userId !== user.id) {
+    if (!ticket || ticket.userId !== user?.userId) {
       redirect("/tickets");
     }
 

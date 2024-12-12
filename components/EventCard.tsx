@@ -5,20 +5,23 @@ import { useQuery } from "convex/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image"
 import { useStorageUrl } from "@/lib/utils";
+import { useCookies } from "next-client-cookies";
 import { CalendarDays, Check, CircleArrowRight, LoaderCircle, MapPin, PencilIcon, StarIcon, Ticket, XCircle } from "lucide-react";
 import PurchaseTicket from "./PurchaseTicket";
 function EventCard({ eventId }: { eventId: Id<"events"> }){
-  const user = {id:"user_2iRXPsQAaVYYfAQ2XLQXemvJrzI"}
+  const cookies = useCookies()
+  const id = cookies.get("auth")
+  const user = useQuery(api.users.getUserById, { userId:id? id:'' });
   const router = useRouter();
   const event = useQuery(api.events.getById, { eventId });
   const availability = useQuery(api.events.getEventAvailability, { eventId });
   const userTicket = useQuery(api.tickets.getUserTicketForEvent, {
     eventId,
-    userId: user?.id ?? "",
+    userId: user?.userId ?? "",
   });
   const queuePosition = useQuery(api.WaitingList.getQueuePosition, {
     eventId,
-    userId: user?.id ?? "",
+    userId: user?.userId ?? "",
   });
   const imageUrl = useStorageUrl(event?.imageStorageId);
  
@@ -28,7 +31,7 @@ function EventCard({ eventId }: { eventId: Id<"events"> }){
 
   const isPastEvent = event.eventDate < Date.now();
 
-  const isEventOwner = user?.id === event?.userId;
+  const isEventOwner = user?.userId === event?.userId;
   const renderQueuePosition = () => {
     if (!queuePosition || queuePosition.status !== "waiting") return null;
 

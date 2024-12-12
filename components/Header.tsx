@@ -10,14 +10,14 @@ import SearchBar from "./SearchBar";
 import { useRouter } from "next/navigation";
 import { useCookies } from "next-client-cookies";
 function Header() {
-  const cookies = useCookies()
   const router = useRouter()
+  const cookies = useCookies()
   const id = cookies.get("auth")
+  const user = useQuery(api.users.getUserById, { userId:id? id:'' });
   const logout = ()=>{
     cookies.remove("auth")
     router.refresh()
   }
-  const user = useQuery(api.users.getUserById, { userId:id? id:'' });
   return (
     <div className="border-b">
       <div className="flex flex-col lg:flex-row items-center gap-4 p-4">

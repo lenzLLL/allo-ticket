@@ -4,11 +4,13 @@ import TicketCard from "@/components/TicketCard";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import { Ticket } from "lucide-react";
-
+import { useCookies } from "next-client-cookies";
 export default function MyTicketsPage() {
-  const user = {id:"user_2iRXPsQAaVYYfAQ2XLQXemvJrzI"}
+  const cookies = useCookies()
+  const id = cookies.get("auth")
+  const user = useQuery(api.users.getUserById, { userId:id? id:'' });
   const tickets = useQuery(api.events.getUserTickets, {
-    userId: user?.id ?? "",
+    userId: user?.userId ?? "",
   });
 
   if (!tickets) return null;

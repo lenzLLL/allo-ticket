@@ -11,7 +11,7 @@ import { AccountStatus, getStripeConnectAccountStatus } from "@/actions/getStrip
 import { CalendarDays, Cog, Plus } from "lucide-react";
 import { createStripeConnectAccountLink } from "@/actions/createStripeConnectAccountLink";
 import { createStripeConnectCustomer } from "@/actions/createStripeConnectCustomer";
-
+import { useCookies } from "next-client-cookies";
 
 export default function SellerDashboard() {
   const [accountCreatePending, setAccountCreatePending] = useState(false);
@@ -22,9 +22,11 @@ export default function SellerDashboard() {
     null
   );
   const router = useRouter();
-  const user = {id:"user_2iRXPsQAaVYYfAQ2XLQXemvJrzI"}
+  const cookies = useCookies()
+  const id = cookies.get("auth")
+  const user = useQuery(api.users.getUserById, { userId:id? id:'' });
   const stripeConnectId = useQuery(api.users.getUsersStripeConnectId, {
-    userId: user?.id || "",
+    userId: user?.userId || "",
   });
 
   const isReadyToAcceptPayments =

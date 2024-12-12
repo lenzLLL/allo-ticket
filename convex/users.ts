@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
-
+import { cookies } from "next/headers";
 
 export const getUsersStripeConnectId = query({
   args: { userId: v.string() },
@@ -91,3 +91,14 @@ export const getUserById = query({
     return user;
   },
 });
+
+export const getUserByPhone = query(
+  async ({db},data:{email:string})=>{
+      const user = await db
+      .query("users")
+      .filter((q) => q.eq(q.field("email"), data?.email))
+      .first()
+      
+      return user  
+  }
+)

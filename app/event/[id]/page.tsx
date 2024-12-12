@@ -12,10 +12,13 @@ import { useStorageUrl } from "@/lib/utils";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import JoinQueue from "@/components/JoinQueu";
-
+import {useCookies} from "next-client-cookies"
 export default function EventPage() {
   const params = useParams();
-  const user = {id:"user_2iRXPsQAaVYYfAQ2XLQXemvJrzI"}
+  const cookies = useCookies()
+  const id = cookies.get("auth")
+  const user = useQuery(api.users.getUserById, { userId:id? id:'' });
+  // const user = {id:"user_2iRXPsQAaVYYfAQ2XLQXemvJrzI"}
   const event = useQuery(api.events.getById, {
     eventId: params.id as Id<"events">,
   });
@@ -119,7 +122,7 @@ export default function EventPage() {
                   {user ? (
                      <JoinQueue
                        eventId={params.id as Id<"events">}
-                       userId={user.id}
+                       userId={user.userId}
                      />
                     
                   ) : (

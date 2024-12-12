@@ -16,11 +16,14 @@ import Image from "next/image";
 import { Doc } from "@/convex/_generated/dataModel";
 import { Metrics } from "@/convex/events";
 import CancelEventButton from "./CancelEventButton";
-
+import { useCookies } from "next-client-cookies";
 export default function SellerEventList() {
-  const user = {id:"user_2iRXPsQAaVYYfAQ2XLQXemvJrzI"}
+  
+  const cookies = useCookies()
+  const id = cookies.get("auth")
+  const user = useQuery(api.users.getUserById, { userId:id? id:'' });
   const events = useQuery(api.events.getSellerEvents, {
-    userId: user?.id ?? "",
+    userId: user?.userId ?? "",
   });
 
   if (!events) return null;
