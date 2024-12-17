@@ -1,7 +1,7 @@
 import { FireExtinguisherIcon, Search } from 'lucide-react'
 import React from 'react'
 import {TbArrowsExchange} from "react-icons/tb"
-export default function SearchTravel() {
+export default function SearchTravel({show}:{show:boolean}) {
   return (
     <div className="w-full p-5 flex justify-center items-center max-w-4xl mx-auto gap-3 border-2 rounded-xl bg-blue-50">
     
@@ -31,12 +31,12 @@ export default function SearchTravel() {
               <input type='date' className='flex-2 border-none h-full outline-none bg-transparent' />
 
           </div>
-          <button
+{ show &&          <button
         type="submit"
         className="bg-gradient-to-r w-auto flex items-start justify-center from-blue-500 hover:from-blue-600  to-purple-600 hover:to-purple-700 text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors duration-200"
       >
         <Search/>
-      </button>
+      </button>}
       </div>
       {/* <input
         type="text"

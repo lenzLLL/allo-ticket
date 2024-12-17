@@ -1,6 +1,7 @@
 "use client"
 import EventList from "@/components/EventList";
 import { useState, useTransition } from "react";
+import { Bus, PlaneTakeoff, Ticket } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -14,12 +15,15 @@ import img from "@/images/f.png";
 import { FilterIcon } from "lucide-react";
 import Loading from "./loading";
 import Voyages from "@/components/Voyages";
+import { TbTimelineEventExclamation } from "react-icons/tb";
+import FilterTravel from "@/components/FilterTravel";
 export default function Home() {
   
   const sections = ["é".toUpperCase()+"vénements","Voyages","Explorer"]
   const [active,setActive] = useState("é".toUpperCase()+"vénements")
   const [isPending,startTransition] = useTransition()
   const [isLoading,setIsLoading] = useState<boolean>(false)
+  const [showTravelFilter,setShowTravelFilter] = useState(true)
   const changeActive = async (s:string) =>{
     startTransition(
       async () => {
@@ -29,7 +33,7 @@ export default function Home() {
               ()=>{
                   setActive(s)
                   setIsLoading(false)
-              },1000
+              },500
             )
         }
         catch(error){
@@ -45,7 +49,32 @@ export default function Home() {
   }  
 
   return (
+    <>
     <div>
+      <div className="">
+      <ul className="fixed bottom-0 !flex justify-between lg:!hidden z-[1000000000] right-0 menu bg-base-200 w-full !menu-horizontal rounded-box shadow-md">
+  <li className={`${active === "é".toUpperCase()+"vénements" && "bg-primary text-white rounded-lg"}`} onClick={()=>changeActive("é".toUpperCase()+"vénements")}>
+    <a>
+      <Ticket/>
+      {"é".toUpperCase()}vénements
+    </a>
+  </li>
+  <li className={`${active === "Voyages" && "bg-primary text-white rounded-lg"}`} onClick={()=>changeActive("Voyages")}>
+    <a>
+      <Bus/>
+      Voyages
+      {/* <span className="badge badge-sm badge-warning">NEW</span> */}
+    </a>
+  </li>
+  <li className={`${active === "Explorer" && "bg-primary text-white rounded-lg"}`} onClick={()=>changeActive("Explorer")}>
+    <a>
+      <PlaneTakeoff/>
+      Exploration
+      {/* <span className="badge badge-xs badge-info"></span> */}
+    </a>
+  </li>
+</ul>
+      </div>
       <div  className="max-w-7xl flex items-center justify-between mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <Select  >
       <SelectTrigger className="w-[280px]">
@@ -65,7 +94,7 @@ export default function Home() {
         </SelectGroup>
       </SelectContent>
       </Select>
-      <div className="flex items-center justify-center gap-8">
+      <div className="hidden items-center justify-center gap-8 lg:flex">
           {
             sections.map(
               (s)=>{
@@ -74,12 +103,18 @@ export default function Home() {
             )
           }
       </div>
-       <div className="flex items-center text-md py-2 border cursor-pointer px-5 rounded-full border-grey-200 hover:shadow-md">
+       <div onClick={()=>setShowTravelFilter(true)} className="flex items-center text-md py-2 border cursor-pointer px-5 rounded-full border-grey-200 hover:shadow-md">
             <span className="text-sm">filtre</span> <FilterIcon size={12} color="gray"/> 
        </div>  
       </div>
       {active === "é".toUpperCase()+"vénements" && <EventList />}
       {active === "Voyages" && <Voyages />}
     </div>
+
+    {
+      showTravelFilter && <FilterTravel onClick={setShowTravelFilter}/>
+    }
+
+  </>
   );
 }
