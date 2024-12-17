@@ -13,6 +13,7 @@ import {
 import img from "@/images/f.png";
 import { FilterIcon } from "lucide-react";
 import Loading from "./loading";
+import Voyages from "@/components/Voyages";
 export default function Home() {
   
   const sections = ["é".toUpperCase()+"vénements","Voyages","Explorer"]
@@ -77,7 +78,8 @@ export default function Home() {
             <span className="text-sm">filtre</span> <FilterIcon size={12} color="gray"/> 
        </div>  
       </div>
-      <EventList />
+      {active === "é".toUpperCase()+"vénements" && <EventList />}
+      {active === "Voyages" && <Voyages />}
     </div>
   );
 }
