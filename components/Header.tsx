@@ -9,10 +9,13 @@ import logo from "@/images/logo.png";
 import SearchBar from "./SearchBar";
 import { useRouter } from "next/navigation";
 import { useCookies } from "next-client-cookies";
+import { Menu } from "lucide-react";
+import { useState } from "react";
 function Header() {
   const router = useRouter()
   const cookies = useCookies()
   const id = cookies.get("auth")
+  const [showing,setShowing] = useState(false)
   const user = useQuery(api.users.getUserById, { userId:id? id:'' });
   const logout = ()=>{
     cookies.remove("auth")
@@ -38,7 +41,8 @@ function Header() {
             </SignedIn>
             <SignedOut>
               <SignInButton mode="modal"> */}
-                {user && <button onClick={logout} className="bg-gray-100 text-gray-800 px-3 py-1.5 text-sm rounded-lg hover:bg-gray-200 transition border border-gray-300">
+                <Menu/>
+                {user && showing && <button onClick={logout} className="bg-gray-100 text-gray-800 px-3 py-1.5 text-sm rounded-lg hover:bg-gray-200 transition border border-gray-300">
                   Déconnexion
                 </button>}
               {/* </SignInButton>
