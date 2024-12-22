@@ -7,17 +7,30 @@ import { redirect, useParams } from "next/navigation";
 import Ticket from "@/components/Ticket";
 import Link from "next/link";
 import { ArrowLeft, Download, Share2 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect,useRef } from "react";
+import {toPng} from 'html-to-image'
+import download from "downloadjs"
 import { useCookies } from "next-client-cookies";
+import InvoiceTravel from "@/components/invoice/InvoiceTravel";
 export default function TicketPage() {
   const params = useParams();
+  const ir = useRef<HTMLDivElement>(null);
   const cookies = useCookies()
   const id = cookies.get("auth")
   const user = useQuery(api.users.getUserById, { userId:id? id:'' });
   const ticket = useQuery(api.tickets.getTicketWithDetails, {
     ticketId: params.id as Id<"tickets">,
   });
+  const handleDownload = async () => {
+    if(ir.current === null){return}
+    try{
+        let dataUrl = await toPng(ir.current)
+        download(dataUrl)
+    }
+    catch(error){
 
+    }
+  }
   useEffect(() => {
     if (!user) {
       redirect("/");
@@ -37,6 +50,7 @@ export default function TicketPage() {
   }
 
   return (
+    <>
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         <div className="mb-8 space-y-8">
@@ -50,7 +64,7 @@ export default function TicketPage() {
               Retour à mes billets
             </Link>
             <div className="flex items-center gap-4">
-              <button className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors rounded-lg hover:bg-gray-100">
+              <button onClick={handleDownload} className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors rounded-lg hover:bg-gray-100">
                 <Download className="w-4 h-4" />
                 <span className="text-sm">Enregistrer</span>
               </button>
@@ -124,5 +138,9 @@ export default function TicketPage() {
         </div>
       </div>
     </div>
+    <div className="fixed -z-50 -top-full">
+    <InvoiceTravel ref={ir}/>
+    </div>
+    </>
   );
 }
