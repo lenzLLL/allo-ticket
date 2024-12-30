@@ -1,9 +1,7 @@
-import Link from 'next/link'
 import React from 'react'
 import BusSeat from './BusSeat'
 
 export default function DetailsTravel() {
-
  return (
     <div className='w-full space-y-12 pb-16'>
         <div className='w-full space-y-8'>
@@ -17,12 +15,10 @@ export default function DetailsTravel() {
                     {/* <li>• Age restriction: 18+</li> */}
                   </ul>
                 </div>
-           <BusSeat/>
+           <BusSeat />
 
         </div>
-        <div className='w-full flex items-center justify-center flex-col'>
-            
-        </div>    
+  
     </div>
   )
 }

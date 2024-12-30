@@ -1,8 +1,10 @@
 import { query, mutation } from "./_generated/server";
 import { ConvexError, v } from "convex/values";
 import { DURATIONS, WAITING_LIST_STATUS, TICKET_STATUS } from "./constants";
-import {  internal } from "./_generated/api";
+import {  internal,components} from "./_generated/api";
 import { processQueue } from "./WaitingList";
+import { MINUTE, RateLimiter } from "@convex-dev/rate-limiter";
+
 // import { processQueue } from "./waitingList";
 // import { MINUTE, RateLimiter } from "@convex-dev/rate-limiter";
 
@@ -108,6 +110,13 @@ export const checkAvailability = query({
     };
   },
 });
+const rateLimiter = new RateLimiter(components.rateLimiter, {
+  queueJoin: {
+    kind: "fixed window",
+    rate: 3, // 3 joins allowed
+    period: 30 * MINUTE, // in 30 minutes
+  },
+});
 
 // Join waiting list for an event
 export const joinWaitingList = mutation({
@@ -115,29 +124,29 @@ export const joinWaitingList = mutation({
   args: { eventId: v.id("events"), userId: v.string() },
   handler: async (ctx, { eventId, userId }) => {
     // Rate limit check
-    // const status = await rateLimiter.limit(ctx, "queueJoin", { key: userId });
-    // if (!status.ok) {
-    //   throw new ConvexError(
-    //     `You've joined the waiting list too many times. Please wait ${Math.ceil(
-    //       status.retryAfter / (60 * 1000)
-    //     )} minutes before trying again.`
-    //   );
-    // }
+    //  const status = await rateLimiter.limit(ctx, "queueJoin", { key: userId });
+    //  if (!status.ok) {
+    //    throw new ConvexError(
+    //      `You've joined the waiting list too many times. Please wait ${Math.ceil(
+    //        status.retryAfter / (60 * 1000)
+    //      )} minutes before trying again.`
+    //    );
+    //  }
 
     // First check if user already has an active entry in waiting list for this event
     // Active means any status except EXPIRED
-    // const existingEntry = await ctx.db
-    //   .query("waitingList")
-    //   .withIndex("by_user_event", (q) =>
-    //     q.eq("userId", userId).eq("eventId", eventId)
-    //   )
-    //   .filter((q) => q.neq(q.field("status"), WAITING_LIST_STATUS.EXPIRED))
-    //   .first();
+     const existingEntry = await ctx.db
+       .query("waitingList")
+       .withIndex("by_user_event", (q) =>
+         q.eq("userId", userId).eq("eventId", eventId)
+       )
+       .filter((q) => q.neq(q.field("status"), WAITING_LIST_STATUS.EXPIRED))
+       .first();
 
     // // Don't allow duplicate entries
-    // if (existingEntry) {
-    //   throw new Error("Already in waiting list for this event");
-    // }
+     if (existingEntry) {
+       throw new Error("Already in waiting list for this event");
+     }
 
     // Verify the event exists
     const event = await ctx.db.get(eventId);
@@ -182,8 +191,8 @@ export const joinWaitingList = mutation({
         ? WAITING_LIST_STATUS.OFFERED // If available, status is offered
         : WAITING_LIST_STATUS.WAITING, // If not available, status is waiting
       message: available
-        ? `Ticket offered - you have ${DURATIONS.TICKET_OFFER/ (60*1000)} to purchase`
-        : "Added to waiting list - you'll be notified when a ticket becomes available",
+      ? `Billet proposé - vous avez ${DURATIONS.TICKET_OFFER / (60 * 1000)} minutes pour l'acheter.`
+      : "Ajouté à la liste d'attente - vous serez notifié lorsqu'un billet deviendra disponible.",
     };
   },
 });

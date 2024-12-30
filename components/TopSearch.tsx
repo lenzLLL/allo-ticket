@@ -1,7 +1,10 @@
 import React from 'react'
 import TopsearchCard from './TopsearchCard'
+import { useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
 
 export default function TopSearch() {
+    const travels = useQuery(api.travel.get);
   return (
     <div className='space-y-12 mt-24'>
         <div>
@@ -11,11 +14,12 @@ export default function TopSearch() {
           </p>
         </div>
         <div className='grid grid-cols-1 grid-rows-auto md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12'>
-            <TopsearchCard routeFrom='Douala' date="28/01/2000" routeTo='Yaoundé' link='/travel' price={1000} timeDuration={'2h'} is_cancelled={false} isPastTravel={false} />  
-            <TopsearchCard routeFrom='Douala' date="28/01/2000" routeTo='Yaoundé' link='/travel' price={1000} timeDuration={'2h'} is_cancelled={false} isPastTravel={false} />  
-            <TopsearchCard routeFrom='Douala' date="28/01/2000" routeTo='Yaoundé' link='/travel' price={1000} timeDuration={'2h'} is_cancelled={false} isPastTravel={false} />  
-            <TopsearchCard routeFrom='Douala' date="28/01/2000" routeTo='Yaoundé' link='/travel' price={1000} timeDuration={'2h'} is_cancelled={false} isPastTravel={false} />  
-            <TopsearchCard routeFrom='Douala' date="28/01/2000" routeTo='Yaoundé' link='/travel' price={1000} timeDuration={'2h'} is_cancelled={false} isPastTravel={false} />  
+            {
+              travels?.map(
+                (t:any)=>(            <TopsearchCard id = {t._id} wifi = {t.wifi} food = {t.foods} tv = {t.tv} electricity = {t.electricity}  key={t._id} routeFrom={t.from} date={t.depart} routeTo={t.to} link={'/travel/'+t._id} price={t.price} timeDuration={t.duration} is_cancelled={false} isPastTravel={false} />)
+              )
+            }
+  
         </div>
     </div>
   )
